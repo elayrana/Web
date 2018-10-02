@@ -11,4 +11,10 @@ def create_app(config_name):
     config[config_name].init_app(app)
     bootstrap.init_app(app)
 
+    from .main import main
+    app.register_blueprint(main)
+
+    from .auth import auth
+    app.register(auth)
+
     return app

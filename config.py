@@ -4,7 +4,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config():
-    SECRET_KEY = os.getenv('SECRET_KEY','Prueba123')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'Prueba123')
     SQLALCHEMY_TYRACK_MODIFICATIONS = False
 
     @staticmethod
