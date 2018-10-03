@@ -2,3 +2,4 @@
 venv/
 migrations/
 *.sqlite
+.vscode

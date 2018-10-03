@@ -1,11 +1,18 @@
-from flask import render_template
+from flask import render_template, flash
 from . import auth
-from .forms import SignUp
+from .forms import SignUpForm
+from .. import db
+from sqlalchemy import exc
 
 
 @auth.route('/singup', methods=['GET', 'POST'])
 def signup():
-    pass
+    form = SignUpForm()
+    if form.validate_on_submit():
+        try:
+            pass
+        except exc.IntegrityError:
+            pass
 
 
 @auth.route('/login', methods=['GET', 'POST'])
