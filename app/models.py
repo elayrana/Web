@@ -1,12 +1,14 @@
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+from .import login_manager
 
 
-class Users(db.Model):
+class Users(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    usename = db.Column(db.String(64), unique=True, index=True)
-    email = db.Column(db.String(64), unique=True, index=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    email = db.Column(db.String, unique=True, index=True)
     password_hash = db.Column(db.String(128))
 
     @property
@@ -22,3 +24,8 @@ class Users(db.Model):
             return False
         else:
             return check_password_hash(self.password_hash, password)
+
+
+@login_manager.user_loader
+def user_load(user_id):
+    return Users.query.get(int(user_id))
