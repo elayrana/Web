@@ -3,7 +3,8 @@ from . import auth
 from .forms import SignUpForm, LogInForm
 from ..models import Users
 from .. import db
-from flask_login import login_user, logout_user, login_required
+from ..email import send_mail
+from flask_login import login_user, logout_user, login_required, current_user
 
 
 @auth.route('/signup', methods=['GET', 'POST'])
@@ -15,7 +16,10 @@ def signup():
                      password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Yocan now log In', 'information')
+        token = user.generate_confirmation_token()
+        send_mail(user.email, 'Confirm Your Account',
+                  'auth/email/confirm', user=user, token=token)
+        flash('A confirmation email has been sent to you by email.')
         return redirect(url_for('auth.login'))
     return render_template('auth/signup.html', form=form)
 
@@ -38,4 +42,16 @@ def login():
 def logout():
     logout_user()
     flash('You have been log out', 'information')
+    return redirect(url_for('main.index'))
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        flash('You have confirmed your account. Thanks')
+    else:
+        flash('The confirmation link is invalid or has expired')
     return redirect(url_for('main.index'))
