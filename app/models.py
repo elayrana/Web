@@ -5,13 +5,14 @@ from flask_login import UserMixin
 from .import login_manager
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
+
 class Roles(db.Model):
     __tablename__ = 'roles'
-    id = db.Column(db.Integer,primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
     default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.Integer)
-    users = db.relationship('User', backref='role', index=True)
+
 
 class Users(UserMixin, db.Model):
     __tablename__ = 'users'

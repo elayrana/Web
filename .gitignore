@@ -3,3 +3,4 @@ venv/
 migrations/
 *.sqlite
 .vscode
+.vscode/settings.json
