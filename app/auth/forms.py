@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms import ValidationError
 from wtforms.validators import Required, Email, EqualTo, Regexp, Length
 from ..models import Users
+from flask_login import current_user
 
 
 class SignUpForm(FlaskForm):
@@ -31,3 +32,15 @@ class LogInForm(FlaskForm):
     password = PasswordField('Type your password', validators=[Required()])
     remember_me = BooleanField('Remember me')
     submit = SubmitField('Submit')
+
+
+class UpdatePasswordForm(FlaskForm):
+    old_password = PasswordField('Old password', validators=[Required()])
+    new_password = PasswordField('New password', validators=[
+        Required(), EqualTo('confirm', message='Password must match')])
+    confirm = PasswordField('New password', validators=[Required()]) 
+    submit = SubmitField('Submit')
+
+    def validate_password(self, field):
+        if not current_user.verify_password(field.data):
+            raise ValidationError('This is not ypur password')

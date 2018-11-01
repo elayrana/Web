@@ -1,6 +1,6 @@
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from . import auth
-from .forms import SignUpForm, LogInForm
+from .forms import SignUpForm, LogInForm, UpdatePasswordForm
 from ..models import Users
 from .. import db
 from ..email import send_mail
@@ -52,6 +52,20 @@ def logout():
     logout_user()
     flash('You have been log out', 'information')
     return render_template('/auth/logout.html', username=username)
+
+
+@auth.route('/updatepassword', methods=['GET', 'POST'])
+@login_required
+def updatepassword():
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+        if current_user.verify_password(form.old_password.data):
+            current_user.password = form.new_password.data
+            flash('Password updated')
+            return redirect(url_for('main.index'))
+        else:
+            flash('Invalid password')
+    return render_template('/auth/updatepassword.html', form=form)
 
 
 @auth.route('/confirm/<token>')
