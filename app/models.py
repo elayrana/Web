@@ -20,7 +20,7 @@ class Roles(db.Model):
     name = db.Column(db.String(64), unique=True)
     default = db.Column(db.Boolean, default=False, index=True)
     permissions = db.Column(db.Integer)
-    users = db.relationship('Users', backref='roles', lazy='dynamic')
+    users = db.relationship('Users', backref='role', lazy='dynamic')
 
     @staticmethod
     def insert_roles():
@@ -103,6 +103,11 @@ class Users(UserMixin, db.Model):
 
     def is_administrator(self):
         return self.can(Permissions.ADMINISTER)
+
+    def __repr__(self):
+        return '\nID:{} Name:{} Role:{}'.format(self.id,
+                                                self.username,
+                                                self.role)
 
 
 class AnonymousUser(AnonymousUserMixin):
