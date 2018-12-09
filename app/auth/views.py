@@ -42,7 +42,7 @@ def login():
             login_user(user, form.remember_me)
             return redirect(request.args.get('next') or url_for('main.index'))
         flash('User or password incorrect', 'error')
-    return render_template('/auth/login.html', form=form)
+    return render_template('auth/login.html', form=form)
 
 
 @auth.route('/logout')
