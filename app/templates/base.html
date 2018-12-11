@@ -9,9 +9,11 @@
             <a class="navbar-brand" href="/">Flasky</a>
         </div>
         <div class="navbar-collapse">
+            {%if current_user.is_authenticated%}
             <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
+                <li><a href={{url_for('main.user_profile', username=current_user.username)}}>Profile</a></li>
             </ul> 
+            {%endif%}
             <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky-Home{% endblock %}
+
+{%block page_content%}
+    <div class=page-header>
+        <h1>{{user.username}}</h1>
+        {%if user.username %}
+            <p><b>Nombre</b>  {{user.username}}</p>
+        {%endif%}
+        {%if user.location%}
+            <p><b>Location:</b>   <a href="http://maps.google.com/?q={{user.location}}">{{user.location}}</a></p>
+        {%endif%}
+        <p><b>Email:</b>   <a href="mailto:{{user.email}}">{{user.email}}</a></p>
+        <p><b>Member Since:</b> {{(user.member_since)}}</p>
+    </div>
+{%endblock%}

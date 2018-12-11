@@ -1,10 +1,11 @@
-from flask import render_template, redirect, request, url_for, flash
-from . import auth
-from .forms import SignUpForm, LogInForm
-from ..models import Users
-from .. import db
-from ..email import send_mail
-from flask_login import login_user, logout_user, login_required, current_user
+from flask import flash, redirect, render_template, request, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+
+from app.auth import auth
+from app import db
+from app.email import send_mail
+from app.models import Users
+from app.auth.forms import LogInForm, SignUpForm
 
 
 @auth.before_app_request
