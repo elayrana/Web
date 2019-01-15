@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Flasky-Home{% endblock %}
 
@@ -7,7 +8,46 @@
         {% if current_user.is_authenticated %}
         <h1>Hello {{current_user.username}}</h1>
         {%else%}
-        <h1 align="center">Flasky V-0.1</h1>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-8">
+                    <h1 align="center">Flasky V-0.1</h1>
+                </div>
+            </div>
+
+            <div class="row"align="center">
+                <div class="col-sm-6 col-sm-offset-6 col-md-6 col-md-offset-6">
+                    <h1>Sign Up</h1>
+                        <form class="form-inline" action="" method="POST" novalidate>
+                            {{form.hidden_tag()}}
+                            <p>{{form.username()}}
+                                {%for error in form.username.errors%}
+                                <span style="color: red"><br>{{error}}</span>
+                                {%endfor%}
+                            </p>
+                            <p>
+                                {{form.email()}}
+                                {%for error in form.email.errors%}
+                                <span style="color: red"><br>{{error}}</span>
+                                {%endfor%}
+                            </p>
+                            <p>
+                                {{form.password()}}
+                                {%for error in form.password.errors%}
+                                <span style="color: red"><br>{{error}}</span>
+                                {%endfor%}
+                            </p>
+                            <p>{{form.confirm()}}
+                                    {%for error in form.confirm.errors%}
+                                    <span style="color: red"><br>{{error}}</span>
+                                    {%endfor%}
+                            </p>
+                            <p>{{form.submit(class="btn btn-primary")}}</p>
+                        </form>
+                </div>
+            </div>
+        </div>
         {%endif%}
     </div>
 {%endblock%}

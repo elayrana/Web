@@ -21,6 +21,8 @@ def signup():
     form = SignUpForm()
     if form.validate_on_submit():
         user = Users(username=form.username.data,
+                     name=form.name.data,
+                     surname=form.surname.data,
                      email=form.email.data,
                      password=form.password.data)
         db.session.add(user)

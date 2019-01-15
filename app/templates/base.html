@@ -5,7 +5,7 @@
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
-       <div class="navbar-header">
+        <div class="navbar-header">
             <a class="navbar-brand" href="/">Flasky</a>
         </div>
         <div class="navbar-collapse">
@@ -14,20 +14,33 @@
                 <li><a href={{url_for('main.user_profile', username=current_user.username)}}>Profile</a></li>
             </ul> 
             {%endif%}
-            <ul class="nav navbar-nav navbar-right">
-                    {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-                    <li><a href="{{ url_for('auth.signup')}}">Sign Up</a></li>
-                    {% endif %}
+
+            {% if current_user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right"> 
+                <li class="dropdown">
+                    <a  class="dropdawn-toggle" style="color:blue" href="#" data-toggle="dropdown">
+                        Account<span class="caret"></span></a>
+                    <ul class="dropdown-menu">    
+                        <li><a href={{url_for('main.change_password',username=current_user.username) }}>Change Password</a></li>
+                        <li><a href={{url_for('main.change_profile',username=current_user.username) }}>Edit Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href={{url_for('auth.logout') }}>Log Out</a></li>
+                    </ul>
+                </li>
             </ul>
+            {%else%}
+            <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{url_for('auth.login')}}">Log in</a></li>
+            </ul>
+            {%endif%} 
         </div>
     </div>
 </div>
 {% endblock %}
 
     {% block content %}
+    <div class="container">
+    </div>
 
     <div class="container">
         <div class="page-header">
@@ -39,5 +52,8 @@
             {% endfor %}
             {% block page_content %} {% endblock %}
         </div>
+    </div>
+    
+    <div class="container">
     </div>
 {% endblock %}

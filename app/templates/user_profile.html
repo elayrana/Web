@@ -4,14 +4,23 @@
 
 {%block page_content%}
     <div class=page-header>
-        <h1>{{user.username}}</h1>
-        {%if user.username %}
+        {%if user.name%}
+        <h1>{{user.name}}{%if user.surname %} {{user.surname}}{%endif%}</h1>
+        <p><b>Username</b>  {{user.username}}</p>
+        {%elif user.username %}
             <p><b>Nombre</b>  {{user.username}}</p>
         {%endif%}
         {%if user.location%}
             <p><b>Location:</b>   <a href="http://maps.google.com/?q={{user.location}}">{{user.location}}</a></p>
         {%endif%}
+        {%if user.about_me%}
+            <p><b>About_me:</b>{{user.about_me}}</p>
+        {%endif%}
         <p><b>Email:</b>   <a href="mailto:{{user.email}}">{{user.email}}</a></p>
-        <p><b>Member Since:</b> {{(user.member_since)}}</p>
+        <p><b>Member Since:</b> {{moment(user.member_since).format('L')}}</p>
     </div>
 {%endblock%}
+{%block scripts %}
+    {{super() }}
+    {{moment.include_moment() }}
+{%endblock %}
