@@ -118,10 +118,12 @@ class Users(UserMixin, db.Model):
 
 
 class AnonymousUser(AnonymousUserMixin):
+    @staticmethod
     def can(self, permissions):
         return False
 
-    def is_administrator():
+    @staticmethod
+    def is_administrator(self):
         return False
 
 
